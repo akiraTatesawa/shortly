@@ -2,20 +2,29 @@ import { Router } from "express";
 
 // Middlewares
 import {
-  checkIfEmailIsRegistered,
+  checkIfEmailIsAlreadyRegistered,
+  checkIfUserExists,
+  validateSignInBody,
   validateSignUpBody,
+  validateUserPassword,
 } from "../middlewares/authMiddlewares.js";
 
 // Controllers
-import { postUser } from "../controllers/authController.js";
+import { postUser, signIn } from "../controllers/authController.js";
 
 export const authRouter = Router();
 
 authRouter.post(
   "/signup",
   validateSignUpBody,
-  checkIfEmailIsRegistered,
+  checkIfEmailIsAlreadyRegistered,
   postUser
 );
 
-authRouter.post("/signin");
+authRouter.post(
+  "/signin",
+  validateSignInBody,
+  checkIfUserExists,
+  validateUserPassword,
+  signIn
+);
