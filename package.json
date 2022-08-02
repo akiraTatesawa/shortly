@@ -36,6 +36,7 @@
     "prettier": "^2.7.1"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "chalk": "^5.0.1",
     "cors": "^2.8.5",
     "dayjs": "^1.11.4",

@@ -4,10 +4,14 @@ import express, { json } from "express";
 import cors from "cors";
 import chalk from "chalk";
 
+import { authRouter } from "./routes/authRouter.js";
+
 const server = express();
 
 server.use(json());
 server.use(cors());
+
+server.use(authRouter);
 
 server.listen(process.env.PORT, () => {
   console.log(
