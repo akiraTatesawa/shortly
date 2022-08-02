@@ -5,11 +5,13 @@ import jwt from "jsonwebtoken";
 import { UserRepository } from "../repositories/userRepository.js";
 
 export async function postUser(req, res) {
-  const { name, email, password } = req.body;
+  const { password } = req.body;
+  const { cleanedEmail, cleanedName } = res.locals;
+
   const hashPassword = bcrypt.hashSync(password, 10);
 
   try {
-    await UserRepository.createUser(name, email, hashPassword);
+    await UserRepository.createUser(cleanedName, cleanedEmail, hashPassword);
 
     return res.sendStatus(201);
   } catch (error) {

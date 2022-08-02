@@ -1,4 +1,7 @@
+// eslint-disable-next-line import/no-unresolved
+import { stripHtml } from "string-strip-html";
 import { compareSync } from "bcrypt";
+import chalk from "chalk";
 
 // Schemas
 import { userSignInSchema, userSignUpSchema } from "../schemas/authSchemas.js";
@@ -8,11 +11,23 @@ import { UserRepository } from "../repositories/userRepository.js";
 
 export function validateSignUpBody(req, res, next) {
   const { error } = userSignUpSchema.validate(req.body);
+  const { name, email } = req.body;
 
   if (error) {
-    console.log(error.details);
+    console.log(error?.details);
     return res.sendStatus(422);
   }
+
+  const cleanedName = stripHtml(name).result.trim();
+  const cleanedEmail = stripHtml(email).result.trim();
+
+  if (cleanedEmail.length === 0 || cleanedName.length === 0) {
+    console.log(chalk.red.bold("Input cannot be empty"));
+    return res.sendStatus(422);
+  }
+
+  res.locals.cleanedEmail = cleanedEmail;
+  res.locals.cleanedName = cleanedName;
 
   return next();
 }
@@ -60,10 +75,10 @@ export function validateUserPassword(req, res, next) {
 }
 
 export async function checkIfEmailIsAlreadyRegistered(req, res, next) {
-  const { email } = req.body;
+  const { cleanedEmail } = res.locals;
 
   try {
-    const { rows: user } = await UserRepository.getUserByEmail(email);
+    const { rows: user } = await UserRepository.getUserByEmail(cleanedEmail);
 
     if (user[0]) {
       return res.sendStatus(409);
