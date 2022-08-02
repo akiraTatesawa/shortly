@@ -14,7 +14,7 @@ export function validateSignUpBody(req, res, next) {
   const { name, email } = req.body;
 
   if (error) {
-    console.log(error?.details);
+    console.log(error.details);
     return res.sendStatus(422);
   }
 
