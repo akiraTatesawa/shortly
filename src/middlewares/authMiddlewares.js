@@ -46,7 +46,7 @@ export async function checkIfUserExists(req, res, next) {
 
     return next();
   } catch (error) {
-    console.log(error.details);
+    console.log(error);
     return res.sendStatus(422);
   }
 }
