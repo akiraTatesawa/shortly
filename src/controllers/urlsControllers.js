@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { nanoid } from "nanoid";
 
 // Repositories
@@ -21,17 +22,53 @@ export async function createShortUrl(req, res) {
 
 export async function selectUrlById(req, res) {
   const { id } = req.params;
+  const { url: selectedUrl } = res.locals;
 
   try {
-    const { rows: urlArray } = await UrlRepository.getUrlById(id);
+    const { url, shortened_url: shortUrl } = selectedUrl;
 
-    if (!urlArray[0]) {
+    return res.send({ id, url, shortUrl });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
+export async function deleteUrl(req, res) {
+  const { id } = req.params;
+  const { user, url } = res.locals;
+
+  try {
+    const { user_id: urlUserId } = url;
+
+    if (urlUserId !== user.id) {
+      return res.sendStatus(401);
+    }
+
+    await UrlRepository.deleteUrlById(id);
+
+    return res.sendStatus(204);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
+export async function redirectToUrl(req, res) {
+  const { shortUrl } = req.params;
+
+  try {
+    const { rows: url } = await UrlRepository.getUrlByShortLink(shortUrl);
+
+    if (!url[0]) {
+      console.log(chalk.bold.red("Short Url not found"));
       return res.sendStatus(404);
     }
 
-    const { url, shortened_url: shortUrl } = urlArray[0];
+    const { url: originalURL, id, views_count: currentViewsCount } = url[0];
+    await UrlRepository.addViewsCountToUrl(id, currentViewsCount);
 
-    return res.send({ id, url, shortUrl });
+    return res.redirect(originalURL);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

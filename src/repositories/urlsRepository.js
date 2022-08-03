@@ -20,10 +20,30 @@ export class UrlRepository {
     return connection.query(query);
   }
 
+  static async getUrlByShortLink(shortLink) {
+    const query = {
+      text: "SELECT * FROM urls WHERE shortened_url = $1",
+      values: [shortLink],
+    };
+
+    return connection.query(query);
+  }
+
   static async deleteUrlById(id) {
     const query = {
       text: "DELETE FROM urls WHERE id = $1",
       values: [id],
+    };
+
+    return connection.query(query);
+  }
+
+  static async addViewsCountToUrl(id, currentViewsCount) {
+    const updatedViewsCount = currentViewsCount + 1;
+
+    const query = {
+      text: "UPDATE urls SET views_count = $1 WHERE id = $2",
+      values: [updatedViewsCount, id],
     };
 
     return connection.query(query);
