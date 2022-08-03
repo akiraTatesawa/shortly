@@ -17,9 +17,7 @@ export class UrlRepository {
       values: [id],
     };
 
-    const { rows: url } = await connection.query(query);
-
-    return url[0];
+    return connection.query(query);
   }
 
   static async deleteUrlById(id) {
