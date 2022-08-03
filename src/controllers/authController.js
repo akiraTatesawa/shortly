@@ -9,8 +9,8 @@ import { UserRepository } from "../repositories/userRepository.js";
 export async function postUser(req, res) {
   const { name, email, password } = req.body;
 
-  const cleanedEmail = stripHtml(name).result.trim();
-  const cleanedName = stripHtml(email).result.trim();
+  const cleanedEmail = stripHtml(email).result.trim();
+  const cleanedName = stripHtml(name).result.trim();
   const hashPassword = bcrypt.hashSync(password, 10);
 
   try {

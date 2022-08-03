@@ -24,4 +24,8 @@ export class UserRepository {
 
     return connection.query(query);
   }
+
+  static async getUserFullInfoById(id) {
+    return id;
+  }
 }
