@@ -37,4 +37,15 @@ export class UrlRepository {
 
     return connection.query(query);
   }
+
+  static async addViewsCountToUrl(id, currentViewsCount) {
+    const updatedViewsCount = currentViewsCount + 1;
+
+    const query = {
+      text: "UPDATE urls SET views_count = $1 WHERE id = $2",
+      values: [updatedViewsCount, id],
+    };
+
+    return connection.query(query);
+  }
 }

@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { nanoid } from "nanoid";
 
 // Repositories
@@ -47,6 +48,27 @@ export async function deleteUrl(req, res) {
     await UrlRepository.deleteUrlById(id);
 
     return res.sendStatus(204);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
+export async function redirectToUrl(req, res) {
+  const { shortUrl } = req.params;
+
+  try {
+    const { rows: url } = await UrlRepository.getUrlByShortLink(shortUrl);
+
+    if (!url[0]) {
+      console.log(chalk.bold.red("Short Url not found"));
+      return res.sendStatus(404);
+    }
+
+    const { url: originalURL, id, views_count: currentViewsCount } = url[0];
+    await UrlRepository.addViewsCountToUrl(id, currentViewsCount);
+
+    return res.redirect(originalURL);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

@@ -11,6 +11,7 @@ import {
 import {
   createShortUrl,
   deleteUrl,
+  redirectToUrl,
   selectUrlById,
 } from "../controllers/urlsControllers.js";
 
@@ -25,6 +26,6 @@ urlsRouter.post(
 
 urlsRouter.get("/urls/:id", checkIfUrlExists, selectUrlById);
 
-urlsRouter.get("/urls/open/:shortUrl");
+urlsRouter.get("/urls/open/:shortUrl", redirectToUrl);
 
 urlsRouter.delete("/urls/:id", validateToken, checkIfUrlExists, deleteUrl);
