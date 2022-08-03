@@ -2,11 +2,15 @@ import { Router } from "express";
 
 // Middlewares
 import { validateToken } from "../middlewares/tokenMiddleware.js";
-import { validateUrlBody } from "../middlewares/urlsMiddlewares.js";
+import {
+  checkIfUrlExists,
+  validateUrlBody,
+} from "../middlewares/urlsMiddlewares.js";
 
 // Controllers
 import {
   createShortUrl,
+  deleteUrl,
   selectUrlById,
 } from "../controllers/urlsControllers.js";
 
@@ -19,8 +23,8 @@ urlsRouter.post(
   createShortUrl
 );
 
-urlsRouter.get("/urls/:id", selectUrlById);
+urlsRouter.get("/urls/:id", checkIfUrlExists, selectUrlById);
 
 urlsRouter.get("/urls/open/:shortUrl");
 
-urlsRouter.delete("/urls/:id", validateToken);
+urlsRouter.delete("/urls/:id", validateToken, checkIfUrlExists, deleteUrl);

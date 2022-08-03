@@ -20,6 +20,15 @@ export class UrlRepository {
     return connection.query(query);
   }
 
+  static async getUrlByShortLink(shortLink) {
+    const query = {
+      text: "SELECT * FROM urls WHERE shortened_url = $1",
+      values: [shortLink],
+    };
+
+    return connection.query(query);
+  }
+
   static async deleteUrlById(id) {
     const query = {
       text: "DELETE FROM urls WHERE id = $1",

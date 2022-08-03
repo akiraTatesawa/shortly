@@ -21,17 +21,32 @@ export async function createShortUrl(req, res) {
 
 export async function selectUrlById(req, res) {
   const { id } = req.params;
+  const { url: selectedUrl } = res.locals;
 
   try {
-    const { rows: urlArray } = await UrlRepository.getUrlById(id);
-
-    if (!urlArray[0]) {
-      return res.sendStatus(404);
-    }
-
-    const { url, shortened_url: shortUrl } = urlArray[0];
+    const { url, shortened_url: shortUrl } = selectedUrl;
 
     return res.send({ id, url, shortUrl });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
+export async function deleteUrl(req, res) {
+  const { id } = req.params;
+  const { user, url } = res.locals;
+
+  try {
+    const { user_id: urlUserId } = url;
+
+    if (urlUserId !== user.id) {
+      return res.sendStatus(401);
+    }
+
+    await UrlRepository.deleteUrlById(id);
+
+    return res.sendStatus(204);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
