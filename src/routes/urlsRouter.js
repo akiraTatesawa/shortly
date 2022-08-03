@@ -5,7 +5,10 @@ import { validateToken } from "../middlewares/tokenMiddleware.js";
 import { validateUrlBody } from "../middlewares/urlsMiddlewares.js";
 
 // Controllers
-import { createShortUrl } from "../controllers/urlsControllers.js";
+import {
+  createShortUrl,
+  selectUrlById,
+} from "../controllers/urlsControllers.js";
 
 export const urlsRouter = Router();
 
@@ -16,7 +19,7 @@ urlsRouter.post(
   createShortUrl
 );
 
-urlsRouter.get("/urls/:id");
+urlsRouter.get("/urls/:id", selectUrlById);
 
 urlsRouter.get("/urls/open/:shortUrl");
 
