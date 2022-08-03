@@ -6,6 +6,7 @@ import chalk from "chalk";
 
 import { authRouter } from "./routes/authRouter.js";
 import { urlsRouter } from "./routes/urlsRouter.js";
+import { userRouter } from "./routes/userRouter.js";
 
 const server = express();
 
@@ -14,6 +15,7 @@ server.use(cors());
 
 server.use(authRouter);
 server.use(urlsRouter);
+server.use(userRouter);
 
 const { PORT } = process.env;
 

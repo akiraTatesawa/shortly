@@ -1,4 +1,7 @@
+import chalk from "chalk";
 import jwt from "jsonwebtoken";
+
+// Repositories
 import { UserRepository } from "../repositories/userRepository.js";
 
 export async function validateToken(req, res, next) {
@@ -17,6 +20,7 @@ export async function validateToken(req, res, next) {
     const [user] = userArray;
 
     if (!user) {
+      console.log(chalk.bold.red("User not found"));
       return res.sendStatus(404);
     }
 

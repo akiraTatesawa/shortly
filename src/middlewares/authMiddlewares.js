@@ -35,6 +35,7 @@ export async function checkIfUserExists(req, res, next) {
     const { rows: userArray } = await UserRepository.getUserByEmail(
       email.trim()
     );
+
     const [user] = userArray;
 
     if (!user) {
@@ -61,11 +62,11 @@ export function validateUserPassword(req, res, next) {
   return next();
 }
 
-export async function checkIfEmailIsAlreadyRegistered(_req, res, next) {
-  const { cleanedEmail } = res.locals;
+export async function checkIfEmailIsAlreadyRegistered(req, res, next) {
+  const { email } = req.body;
 
   try {
-    const { rows: user } = await UserRepository.getUserByEmail(cleanedEmail);
+    const { rows: user } = await UserRepository.getUserByEmail(email.trim());
 
     if (user[0]) {
       return res.sendStatus(409);
