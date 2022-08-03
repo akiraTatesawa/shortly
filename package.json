@@ -6,8 +6,8 @@
   "main": "./src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=prod node ./src/index.js",
-    "dev": "NODE_ENV=dev nodemon ./src/index.js"
+    "start": "NODE_ENV=prod node ./src/server.js",
+    "dev": "NODE_ENV=dev nodemon ./src/server.js"
   },
   "repository": {
     "type": "git",
