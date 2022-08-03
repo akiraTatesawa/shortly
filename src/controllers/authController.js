@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-unresolved
+import { stripHtml } from "string-strip-html";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -5,9 +7,10 @@ import jwt from "jsonwebtoken";
 import { UserRepository } from "../repositories/userRepository.js";
 
 export async function postUser(req, res) {
-  const { password } = req.body;
-  const { cleanedEmail, cleanedName } = res.locals;
+  const { name, email, password } = req.body;
 
+  const cleanedEmail = stripHtml(name).result.trim();
+  const cleanedName = stripHtml(email).result.trim();
   const hashPassword = bcrypt.hashSync(password, 10);
 
   try {
