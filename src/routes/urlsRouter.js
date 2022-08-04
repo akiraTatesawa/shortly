@@ -2,10 +2,8 @@ import { Router } from "express";
 
 // Middlewares
 import { validateToken } from "../middlewares/tokenMiddleware.js";
-import {
-  checkIfUrlExists,
-  validateUrlBody,
-} from "../middlewares/urlsMiddlewares.js";
+import { checkIfUrlExists } from "../middlewares/urlsMiddlewares.js";
+import { validateBody } from "../middlewares/joiValidationMiddleware.js";
 
 // Controllers
 import {
@@ -20,7 +18,7 @@ export const urlsRouter = Router();
 urlsRouter.post(
   "/urls/shorten",
   validateToken,
-  validateUrlBody,
+  validateBody("urls"),
   createShortUrl
 );
 

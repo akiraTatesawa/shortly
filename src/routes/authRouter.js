@@ -4,10 +4,9 @@ import { Router } from "express";
 import {
   checkIfEmailIsAlreadyRegistered,
   checkIfUserExists,
-  validateSignInBody,
-  validateSignUpBody,
   validateUserPassword,
 } from "../middlewares/authMiddlewares.js";
+import { validateBody } from "../middlewares/joiValidationMiddleware.js";
 
 // Controllers
 import { postUser, signIn } from "../controllers/authController.js";
@@ -16,14 +15,14 @@ export const authRouter = Router();
 
 authRouter.post(
   "/signup",
-  validateSignUpBody,
+  validateBody("signUp"),
   checkIfEmailIsAlreadyRegistered,
   postUser
 );
 
 authRouter.post(
   "/signin",
-  validateSignInBody,
+  validateBody("signIn"),
   checkIfUserExists,
   validateUserPassword,
   signIn
