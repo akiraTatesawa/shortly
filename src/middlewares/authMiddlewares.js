@@ -1,32 +1,7 @@
 import { compareSync } from "bcrypt";
 
-// Schemas
-import { userSignInSchema, userSignUpSchema } from "../schemas/authSchemas.js";
-
 // Repositories
 import { UserRepository } from "../repositories/userRepository.js";
-
-export function validateSignUpBody(req, res, next) {
-  const { error } = userSignUpSchema.validate(req.body);
-
-  if (error) {
-    console.log(error.details);
-    return res.sendStatus(422);
-  }
-
-  return next();
-}
-
-export function validateSignInBody(req, res, next) {
-  const { error } = userSignInSchema.validate(req.body);
-
-  if (error) {
-    console.log(error.details);
-    return res.sendStatus(422);
-  }
-
-  return next();
-}
 
 export async function checkIfUserExists(req, res, next) {
   const { email } = req.body;
