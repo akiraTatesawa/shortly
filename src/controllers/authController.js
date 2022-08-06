@@ -25,7 +25,7 @@ export async function postUser(req, res) {
 
 export function signIn(_req, res) {
   const { registeredUser } = res.locals;
-  const { id, name } = registeredUser;
+  const { id } = registeredUser;
 
   const tokenData = { id };
   const KEY = process.env.JWT_SECRET;
@@ -33,5 +33,5 @@ export function signIn(_req, res) {
 
   const token = jwt.sign(tokenData, KEY, config);
 
-  return res.send({ token, name });
+  return res.send({ token });
 }

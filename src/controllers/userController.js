@@ -17,7 +17,10 @@ export async function listUserInfo(_req, res) {
       });
     }
 
-    return res.send(userDataArray[0]);
+    return res.send({
+      ...userDataArray[0],
+      visitCount: parseInt(userDataArray[0].visitCount, 10),
+    });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

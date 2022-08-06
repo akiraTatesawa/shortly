@@ -30,7 +30,7 @@ export class UserRepository {
       text: `SELECT
       users.id,
       users.name,
-      SUM(urls.views_count) AS "visitedCount",
+      SUM(urls.views_count) AS "visitCount",
       jsonb_agg(jsonb_build_object('id', urls.id, 'shortUrl', urls.shortened_url, 'url', urls.url, 'visitCount', urls.views_count )) AS "shortenedUrls"
     FROM
       users
