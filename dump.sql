@@ -1,0 +1,15 @@
+CREATE TABLE "users"(
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(30) NOT NULL,
+    "email" VARCHAR(30) UNIQUE NOT NULL,
+    "password" TEXT NOT NULL,
+    "createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE "urls"(
+    "id" SERIAL PRIMARY KEY,
+    "shortened_url" TEXT NOT NULL UNIQUE,
+    "views_count" INTEGER NOT NULL DEFAULT 0,
+    "user_id" INTEGER NOT NULL REFERENCES "users"(id),
+    "createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+);
