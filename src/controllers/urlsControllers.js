@@ -68,7 +68,7 @@ export async function redirectToUrl(req, res) {
     const { url: originalURL, id, views_count: currentViewsCount } = url[0];
     await UrlRepository.addViewsCountToUrl(id, currentViewsCount);
 
-    return res.redirect(originalURL);
+    return res.redirect(200, originalURL);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
