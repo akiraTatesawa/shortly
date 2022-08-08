@@ -29,6 +29,14 @@ export async function validateToken(req, res, next) {
     return next();
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.message);
+
+    if (
+      error.name === "JsonWebTokenError" ||
+      error.name === "TokenExpiredError"
+    ) {
+      return res.sendStatus(401);
+    }
+
+    return res.status(500);
   }
 }
